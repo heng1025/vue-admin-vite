@@ -1,0 +1,9 @@
+dist/
+src/auto-imports.d.ts
+src/components.d.ts
+vite-env.d.ts
+
+*.config.js
+tsconfig.json
+
+CHANGELOG.md
