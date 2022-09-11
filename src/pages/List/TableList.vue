@@ -1,8 +1,8 @@
 <template>
   <div>
-    <el-drawer title="add" v-model="drawer" direction="rtl">
+    <el-drawer v-model="drawer" title="add" direction="rtl">
       <el-form :model="form" label-width="80px" class="max-w-xl mx-auto">
-        <template v-for="col in columns">
+        <template v-for="col in columns" :key="col.property">
           <el-form-item :label="col.label" :prop="col.property">
             <el-input />
           </el-form-item>
@@ -14,7 +14,7 @@
         <el-button type="primary" class="mb-2" @click="drawer = true">add</el-button>
       </template>
       <el-table :data="tableData" @selection-change="handleSelectionChange">
-        <template v-for="col in columns">
+        <template v-for="col in columns" :key="col.property">
           <el-table-column :label="col.label" :width="col.width">
             <template #default="scope">{{ scope.row[col.property] }}</template>
           </el-table-column>
@@ -33,25 +33,23 @@
   </div>
 </template>
 <script lang="ts" setup>
-
 const columns = ref([
   {
     label: 'Name',
     property: 'name',
-    width: 160
+    width: 160,
   },
   {
     label: 'Date',
     property: 'date',
-    width: 120
+    width: 120,
   },
   {
     label: 'Address',
     property: 'address',
-    width: 240
+    width: 240,
   },
-])
-
+]);
 
 const tableData = ref([
   {
@@ -93,16 +91,11 @@ const tableData = ref([
 
 const drawer = ref(false);
 
-
-const form = ref({
+const form = reactive({
   name: '',
   date: '',
-  address: ''
+  address: '',
 });
-
-function onSubmit() {
-  console.log('submit!');
-}
 
 function handleSelectionChange() {
   // todo
@@ -111,5 +104,4 @@ function handleSelectionChange() {
 function handleClick() {
   // todo
 }
-
 </script>
