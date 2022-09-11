@@ -1,0 +1,34 @@
+name: Deploy TO GH-PAGES
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: actions/cache@v3
+        id: pnpm-cache
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}
+
+      - name: Install and Build
+        env:
+          VITE_API_URL: ${{ secrets.API_URL }}
+        run: |
+          pnpm install
+          pnpm build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
