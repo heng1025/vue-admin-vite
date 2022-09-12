@@ -4,22 +4,25 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: github-pages
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: actions/cache@v3
-        id: pnpm-cache
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.2
         with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}
+          version: 7.11.0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'pnpm'
 
       - name: Install and Build
         env:
@@ -32,3 +35,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist
+          clean: true
