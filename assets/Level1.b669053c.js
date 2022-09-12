@@ -1,1 +1,0 @@
-import{O as o,a_ as t,b as c,c as r,e as n,l as s}from"./index.07bb648d.js";const a={},_=s(" Level1 ");function l(d,i){const e=t("router-view");return c(),r("div",null,[_,n(e)])}const m=o(a,[["render",l]]);export{m as default};
